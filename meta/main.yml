@@ -1,17 +1,16 @@
 galaxy_info:
-  role_name: fluentbit
-  author: Tsengel-de
+  author: tsengel-de
+  namespace: tsengel-de
   description: fluentbit installation and configuration role
   license: MIT
   min_ansible_version: '2.9'
   platforms:
-  - name: Ubuntu
-    versions:
-    - jammy
-    - noble
+    - name: Ubuntu
+      versions:
+        - jammy
+        - noble
   galaxy_tags:
-  - system
-  - logs
-  - efk
-  namespace: Tsengel-de
+    - system
+    - logs
+    - efk
 dependencies: []
