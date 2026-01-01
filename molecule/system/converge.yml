@@ -1,0 +1,42 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  gather_facts: true
+
+  roles:
+    - role: fluentbit
+      fluentbit_service_enable_metrics: true
+      # lua scripts
+      fluentbit_lua_scripts:
+        - name: adjust_ts.lua
+          content: "{{ lookup('template','templates/adjust_ts.lua') }}"
+      # inputs
+      fluentbit_inputs: |
+        [INPUT]
+            Name tail
+            Tag host.*
+            DB /run/fluentbit-state.db
+            Path /var/log/auth.log,/var/log/syslog
+            Parser syslog-rfc3164-nopri
+      # filters
+      fluentbit_filters: |
+        [FILTER]
+            Name lua
+            Match host.*
+            script /etc/fluent-bit/adjust_ts.lua
+            call local_timestamp_to_UTC
+      # outputs
+      fluentbit_outputs: |
+        [OUTPUT]
+            Name stdout
+            Match *
+      # Parsers
+      fluentbit_custom_parsers: |
+        [PARSER]
+            Name syslog-rfc3164-nopri
+            Format regex
+            Regex /^(?<time>[^ ]* {1,2}[^ ]* [^ ]*) (?<host>[^ ]*) (?<ident>[a-zA-Z0-9_\/\.\-]*)(?:\[(?<pid>[0-9]+)\])?(?:[^\:]*\:)? *(?<message>.*)$/
+            Time_Key time
+            Time_Format %b %d %H:%M:%S
+            Time_Keep False

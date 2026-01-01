@@ -1,0 +1,10 @@
+---
+# tasks file for ansible-role-fluentbit
+
+# Install fluentbit
+- ansible.builtin.import_tasks: install.yml
+  tags: ['install']
+
+# Configure fluentbit
+- ansible.builtin.import_tasks: configure.yml
+  tags: ['configure']

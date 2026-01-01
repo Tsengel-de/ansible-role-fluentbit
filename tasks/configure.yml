@@ -1,0 +1,34 @@
+---
+# Configure fluentbit
+
+- name: Configure | Copy Lua scripts
+  ansible.builtin.include_tasks:
+    file: copy_lua_script.yml
+  loop: "{{ fluentbit_lua_scripts }}"
+  loop_control:
+    loop_var: lua_script
+  when:
+    - fluentbit_lua_scripts is defined
+
+- name: Configure | Source fluent-bit custom parsers conf
+  ansible.builtin.template:
+    src: custom_parsers.conf.j2
+    dest: /etc/fluent-bit/custom_parsers.conf
+    mode: 0644
+    backup: "{{ fluentbit_backup_conf }}"
+  notify: Restart Fluentbit service
+
+- name: Configure | Source fluent-bit main conf
+  ansible.builtin.template:
+    src: fluent-bit.conf.j2
+    dest: /etc/fluent-bit/fluent-bit.conf
+    mode: 0644
+    backup: "{{ fluentbit_backup_conf }}"
+    validate: "/opt/fluent-bit/bin/fluent-bit -c %s --dry-run"
+  notify: Restart Fluentbit service
+
+- name: Ensure fluentbit service is enabled and started
+  ansible.builtin.service:
+    name: "{{ fluentbit_service_name }}"
+    state: started
+    enabled: true

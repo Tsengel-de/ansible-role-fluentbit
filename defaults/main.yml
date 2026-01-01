@@ -1,0 +1,34 @@
+---
+# fluentbit service name
+fluentbit_service_name: fluent-bit
+
+# Backup configuration
+fluentbit_backup_conf: true
+
+# [SERVICE] fluentbit configuration variable
+fluentbit_service_flush_seconds: 5
+fluentbit_service_daemon: false
+fluentbit_service_log_level: info
+fluentbit_service_log_file: /var/log/fluentbit.log
+
+fluentbit_service_enable_metrics: false
+fluentbit_service_metrics_listen_ip: 0.0.0.0
+fluentbit_service_metrics_listen_port: 2020
+
+# [INPUT] fluentbit configuration.
+fluentbit_inputs: ""
+
+# [FILTER] fluentbit configuration.
+fluentbit_filters: ""
+
+# [OUTPUT] fluentbit configuration.
+fluentbit_outputs: ""
+
+# Additional custom parsers.
+fluentbit_custom_parsers: ""
+
+# Lua scripts. Dictionary List
+fluentbit_lua_scripts: []
+# fluentbit_lua_scritps:
+#   - filename: /dev/sdb
+#     content: <script_content>
