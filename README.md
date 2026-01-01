@@ -129,7 +129,7 @@ Example Playbooks
   gather_facts: true
 
   roles:
-    - role: ricsanfre.fluentbit
+    - role: tsengel.fluentbit
       fluentbit_service_enable_metrics: true
       # lua scripts
       fluentbit_lua_scripts:
