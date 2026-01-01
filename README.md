@@ -165,3 +165,8 @@ Example Playbooks
             Time_Format %b %d %H:%M:%S
             Time_Keep False
 ```
+
+
+## Author Information
+
+Email: tsengel.de@gmail.com
